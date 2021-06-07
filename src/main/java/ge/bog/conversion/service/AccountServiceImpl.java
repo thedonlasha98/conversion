@@ -4,7 +4,6 @@ import ge.bog.conversion.domain.Account;
 import ge.bog.conversion.model.BalanceDto;
 import ge.bog.conversion.ropository.AccountRepository;
 import ge.bog.conversion.ropository.UserRepository;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     //constants
     public static final String ACTIVE = "A";
     public static final String CLOSED = "C";
-    public static final Set<String> CURRENCIES = new HashSet<>(Arrays.asList("GEL","USD","EUR","GBP"));
+    public static final Set<String> CURRENCIES = new HashSet<>(Arrays.asList("GEL", "USD", "EUR", "GBP"));
 
     @Transactional
     @Override
@@ -41,27 +40,26 @@ public class AccountServiceImpl implements AccountService {
             Long value = accountRepository.getNextVal();
 
             currencies.forEach(ccy -> {
-                if (CURRENCIES.contains(ccy)){
+                if (CURRENCIES.contains(ccy.toUpperCase())) {
                     String acctNo = String.format("%s%016d%s", index, value, ccy);
                     Account account = new Account();
 
                     account.setUserName(user);
-                    account.setCcy(ccy);
+                    account.setCcy(ccy.toUpperCase());
                     account.setBalance(defaultBal);
                     account.setStatus(ACTIVE);
                     account.setAcctNo(acctNo);
                     account.setOpenDate(LocalDateTime.now());
 
                     accounts.add(account);
-                    result.add(acctNo);}
-                else {
+                    result.add(acctNo);
+                } else {
                     result.add("Incorrect CCY " + ccy);
-                    log.info("Incorrect CCY " + ccy);
+                    log.info("Incorrect CCY user: " + user + "ccy: " + ccy);
                 }
             });
             accountRepository.saveAll(accounts);
         } else {
-            log.error("User Not Exists!");
             throw new RuntimeException("User Not Exists!");
         }
 
@@ -89,11 +87,9 @@ public class AccountServiceImpl implements AccountService {
                     }
                 }
             } else {
-                log.error("Incorrect Credentials!");
                 throw new RuntimeException("Incorrect Credentials!");
             }
         } else {
-            log.error("Incorrect Parameters!");
             throw new RuntimeException("Incorrect Parameters!");
         }
         return result;
@@ -112,13 +108,10 @@ public class AccountServiceImpl implements AccountService {
                 accountRepository.save(account.get());
 
                 return newBalance;
-            }
-            else {
-                log.error("Incorrect Status Or User!");
+            } else {
                 throw new RuntimeException("Incorrect Status Or User!");
             }
         } else {
-            log.error("Account Not Exists!");
             throw new RuntimeException("Account Not Exists!");
         }
     }
