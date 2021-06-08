@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ControllerAdviceException {
     @ExceptionHandler
-    public ResponseEntity<?> handleException(HttpServletRequest req, RuntimeException e) {
+    public ResponseEntity<?> handleException(HttpServletRequest req, Exception e) {
         log.error("Request: " + req.getRequestURL() + " raised " + e);
+        log.error("Request: " + req.getRequestURL() + " raised " + e.getStackTrace()[0].toString());
         return new ResponseEntity<>(new GeneralExceptionResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

@@ -20,19 +20,19 @@ public class AccountController {
 
     private AccountService accountService;
 
-    @PostMapping("/create/{user}")
+    @PostMapping("/{user}")
     ResponseEntity<List<String>> createAccount(@PathVariable String user, @RequestBody Set<String> currencies){
         List<String> acctNo = accountService.createAccount(user, currencies);
         return new ResponseEntity<>(acctNo,HttpStatus.CREATED);
     }
 
-    @PutMapping("/close/user/{user}/account/{acctNo}")
+    @PutMapping("/user/{user}/account/{acctNo}")
     ResponseEntity<List<String>> closeAccount(@PathVariable String user, @PathVariable String acctNo){
         List<String> response = accountService.closeAccount(user, acctNo);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @PatchMapping("/filling")
+    @PatchMapping()
     ResponseEntity<BigDecimal> fillingBalance(@RequestBody BalanceDto balanceDto){
         BigDecimal balance = accountService.fillingBalance(balanceDto);
         return new ResponseEntity<>(balance,HttpStatus.OK);
