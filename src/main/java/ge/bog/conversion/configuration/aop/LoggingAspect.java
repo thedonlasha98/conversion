@@ -18,10 +18,10 @@ import java.util.Arrays;
 @Component
 public class LoggingAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
+
     /**
-     * @param joinPoint
-     * trigger of any request on Controller package
-     * log request info
+     * @param joinPoint trigger of any request on Controller package
+     *                  log request info
      */
     @SneakyThrows
     @Before("execution(* ge.bog.conversion.controller.*.*(..))")

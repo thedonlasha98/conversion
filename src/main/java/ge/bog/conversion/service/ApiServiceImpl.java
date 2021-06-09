@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 @Service
-public class ApiServiceImpl implements ApiService{
+public class ApiServiceImpl implements ApiService {
 
     @Value("${api.rate.info.url}")
     private String infoUrl;
@@ -19,7 +19,7 @@ public class ApiServiceImpl implements ApiService{
     private RestTemplate restTemplate;
 
     @Override
-    public BigDecimal getRateInfo(String ccy){
+    public BigDecimal getRateInfo(String ccy) {
         ResponseEntity<Double> response = restTemplate.exchange(
                 infoUrl + "ccy/" + ccy,
                 HttpMethod.GET,

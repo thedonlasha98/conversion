@@ -9,11 +9,11 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface AccountRepository extends CrudRepository<Account,String> {
+public interface AccountRepository extends CrudRepository<Account, String> {
 
     Set<Account> getAccountsByUserNameAndAcctNoIsStartingWith(String user, String acctNo);
 
-    @Query(value = "select ecom_seq.nextval as nextVal from dual" ,nativeQuery = true)
+    @Query(value = "select ecom_seq.nextval as nextVal from dual", nativeQuery = true)
     Long getNextVal();
 
     Optional<Account> findByUserNameAndAcctNoAndStatus(String user, String acctFrom, String status);

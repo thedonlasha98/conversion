@@ -15,14 +15,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
-import static ge.bog.conversion.exception.ErrorMessage.ACCOUNT_FROM_NOT_FOUND;
-import static ge.bog.conversion.exception.ErrorMessage.ACCOUNT_TO_NOT_FOUND;
-import static ge.bog.conversion.exception.ErrorMessage.CONVERSION_NOT_FOUND;
-import static ge.bog.conversion.exception.ErrorMessage.COULD_NOT_FIND_RATE;
-import static ge.bog.conversion.exception.ErrorMessage.NOT_ENOUGH_BALANCE_FOR_ACCOUNT_FROM;
-import static ge.bog.conversion.exception.ErrorMessage.NOT_ENOUGH_BALANCE_FOR_ACCOUNT_TO;
-import static ge.bog.conversion.exception.ErrorMessage.SAME_CURRENCY_ERROR;
-import static ge.bog.conversion.exception.ErrorMessage.USER_NOT_EQUALS_INP_USER;
+import static ge.bog.conversion.exception.ErrorMessage.*;
 import static ge.bog.conversion.service.AccountServiceImpl.ACTIVE;
 
 @Slf4j
@@ -46,7 +39,6 @@ public class ConversionServiceImpl implements ConversionService {
         BigDecimal amountTo;
         BigDecimal comRate = BigDecimal.valueOf(2);
         BigDecimal amountFrom = createConvDto.getAmount();
-        int i = 1/0;
 
         Account accountFrom = accountRepository.findByUserNameAndAcctNoAndStatus(createConvDto.getUser(), createConvDto.getAcctFrom(), ACTIVE)
                 .orElseThrow(() -> new GeneralException(ACCOUNT_FROM_NOT_FOUND));

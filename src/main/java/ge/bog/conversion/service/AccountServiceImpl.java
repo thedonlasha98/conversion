@@ -13,11 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static ge.bog.conversion.exception.ErrorMessage.ACCOUNT_NOT_EXISTS;
-import static ge.bog.conversion.exception.ErrorMessage.INCORRECT_CREDENTIALS;
-import static ge.bog.conversion.exception.ErrorMessage.INCORRECT_PARAMETERS;
-import static ge.bog.conversion.exception.ErrorMessage.INCORRECT_STATUS_OR_USER;
-import static ge.bog.conversion.exception.ErrorMessage.USER_NOT_EXISTS;
+import static ge.bog.conversion.exception.ErrorMessage.*;
 
 @Slf4j
 @Service
@@ -30,7 +26,9 @@ public class AccountServiceImpl implements AccountService {
 
     private AccountRepository accountRepository;
     private UserRepository userRepository;
-    /** constants **/
+    /**
+     * constants
+     **/
     public static final String ACTIVE = "A";
     public static final String CLOSED = "C";
     public static final Set<String> CURRENCIES = new HashSet<>(Arrays.asList("GEL", "USD", "EUR", "GBP"));
@@ -40,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
     public List<String> createAccount(String user, Set<String> currencies) {
         List<String> result = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
-int i=1/0;
+        int i = 1 / 0;
         if (userRepository.existsById(user)) {
             String index = "GE77BG";
             BigDecimal defaultBal = BigDecimal.valueOf(1000);

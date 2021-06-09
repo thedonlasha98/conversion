@@ -4,6 +4,7 @@ import ge.bog.conversion.domain.User;
 import ge.bog.conversion.exception.GeneralException;
 import ge.bog.conversion.model.UserDto;
 import ge.bog.conversion.ropository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,11 +24,9 @@ public class UserServiceImpl implements UserService {
 
         if (user.isEmpty()) {
             User newUser = new User();
-            newUser.setUserName(userDto.getUserName());
-            newUser.setFirstName(userDto.getFirstName());
-            newUser.setLastName(userDto.getLastName());
-
+            BeanUtils.copyProperties(userDto, newUser);
             userRepository.save(newUser);
+
             return "Success!";
         } else {
             throw new GeneralException("User By UserName " + userDto.getUserName() + " Already Exists!");
