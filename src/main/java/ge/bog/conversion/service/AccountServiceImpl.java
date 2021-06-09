@@ -44,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
             BigDecimal defaultBal = BigDecimal.valueOf(1000);
             Long value = accountRepository.getNextVal();
 
-            currencies.forEach(ccy -> {
+            for (String ccy : currencies) {
                 if (CURRENCIES.contains(ccy.toUpperCase())) {
                     String acctNo = String.format("%s%016d%s", index, value, ccy);
                     Account account = new Account();
@@ -61,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
                     result.add("Incorrect CCY " + ccy);
                     log.info("Incorrect CCY user: " + user + "ccy: " + ccy);
                 }
-            });
+            }
             accountRepository.saveAll(accounts);
         } else {
             throw new GeneralException(USER_NOT_EXISTS);
