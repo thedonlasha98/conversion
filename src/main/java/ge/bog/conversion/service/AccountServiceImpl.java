@@ -1,6 +1,7 @@
 package ge.bog.conversion.service;
 
 import ge.bog.conversion.domain.Account;
+import ge.bog.conversion.exception.GeneralException;
 import ge.bog.conversion.model.BalanceDto;
 import ge.bog.conversion.ropository.AccountRepository;
 import ge.bog.conversion.ropository.UserRepository;
@@ -11,6 +12,12 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static ge.bog.conversion.exception.ErrorMessage.ACCOUNT_NOT_EXISTS;
+import static ge.bog.conversion.exception.ErrorMessage.INCORRECT_CREDENTIALS;
+import static ge.bog.conversion.exception.ErrorMessage.INCORRECT_PARAMETERS;
+import static ge.bog.conversion.exception.ErrorMessage.INCORRECT_STATUS_OR_USER;
+import static ge.bog.conversion.exception.ErrorMessage.USER_NOT_EXISTS;
 
 @Slf4j
 @Service
@@ -23,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
 
     private AccountRepository accountRepository;
     private UserRepository userRepository;
-    //constants
+    /** constants **/
     public static final String ACTIVE = "A";
     public static final String CLOSED = "C";
     public static final Set<String> CURRENCIES = new HashSet<>(Arrays.asList("GEL", "USD", "EUR", "GBP"));
@@ -33,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
     public List<String> createAccount(String user, Set<String> currencies) {
         List<String> result = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
-
+int i=1/0;
         if (userRepository.existsById(user)) {
             String index = "GE77BG";
             BigDecimal defaultBal = BigDecimal.valueOf(1000);
@@ -43,7 +50,6 @@ public class AccountServiceImpl implements AccountService {
                 if (CURRENCIES.contains(ccy.toUpperCase())) {
                     String acctNo = String.format("%s%016d%s", index, value, ccy);
                     Account account = new Account();
-
                     account.setUserName(user);
                     account.setCcy(ccy.toUpperCase());
                     account.setBalance(defaultBal);
@@ -60,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
             });
             accountRepository.saveAll(accounts);
         } else {
-            throw new RuntimeException("User Not Exists!");
+            throw new GeneralException(USER_NOT_EXISTS);
         }
 
         return result;
@@ -87,10 +93,10 @@ public class AccountServiceImpl implements AccountService {
                     }
                 }
             } else {
-                throw new RuntimeException("Incorrect Credentials!");
+                throw new GeneralException(INCORRECT_CREDENTIALS);
             }
         } else {
-            throw new RuntimeException("Incorrect Parameters!");
+            throw new GeneralException(INCORRECT_PARAMETERS);
         }
         return result;
     }
@@ -109,10 +115,10 @@ public class AccountServiceImpl implements AccountService {
 
                 return newBalance;
             } else {
-                throw new RuntimeException("Incorrect Status Or User!");
+                throw new GeneralException(INCORRECT_STATUS_OR_USER);
             }
         } else {
-            throw new RuntimeException("Account Not Exists!");
+            throw new GeneralException(ACCOUNT_NOT_EXISTS);
         }
     }
 }

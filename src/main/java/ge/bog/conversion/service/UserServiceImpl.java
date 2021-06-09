@@ -1,6 +1,7 @@
 package ge.bog.conversion.service;
 
 import ge.bog.conversion.domain.User;
+import ge.bog.conversion.exception.GeneralException;
 import ge.bog.conversion.model.UserDto;
 import ge.bog.conversion.ropository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(newUser);
             return "Success!";
         } else {
-            throw new RuntimeException("User By UserName " + userDto.getUserName() + " Already Exists!");
+            throw new GeneralException("User By UserName " + userDto.getUserName() + " Already Exists!");
         }
     }
 }

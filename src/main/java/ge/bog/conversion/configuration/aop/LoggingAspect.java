@@ -2,7 +2,6 @@ package ge.bog.conversion.configuration.aop;
 
 import lombok.SneakyThrows;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import java.util.Arrays;
 @Component
 public class LoggingAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
-
     /**
      * @param joinPoint
      * trigger of any request on Controller package
@@ -40,10 +38,5 @@ public class LoggingAspect {
             LOGGER.info("ARGS = {}", args);
             LOGGER.info("REQUESTER IP = {}", request.getRemoteAddr());
         }
-    }
-
-    @AfterReturning("execution(* ge.bog.conversion.controller.*.*(..))")
-    public void postLogger(JoinPoint joinPoint){
-
     }
 }
