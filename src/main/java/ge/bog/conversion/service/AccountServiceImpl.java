@@ -47,13 +47,14 @@ public class AccountServiceImpl implements AccountService {
             for (String ccy : currencies) {
                 if (CURRENCIES.contains(ccy.toUpperCase())) {
                     String acctNo = String.format("%s%016d%s", index, value, ccy);
-                    Account account = new Account();
-                    account.setUserName(user);
-                    account.setCcy(ccy.toUpperCase());
-                    account.setBalance(defaultBal);
-                    account.setStatus(ACTIVE);
-                    account.setAcctNo(acctNo);
-                    account.setOpenDate(LocalDateTime.now());
+                    Account account = Account.builder()
+                            .userName(user)
+                            .ccy(ccy.toUpperCase())
+                            .balance(defaultBal)
+                            .status(ACTIVE)
+                            .acctNo(acctNo)
+                            .openDate(LocalDateTime.now())
+                            .build();
 
                     accounts.add(account);
                     result.add(acctNo);
