@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -20,7 +22,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
+    ResponseEntity<String> createUser(@Valid @RequestBody UserDto userDto) {
         String response = userService.createUser(userDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

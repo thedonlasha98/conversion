@@ -3,6 +3,9 @@ package ge.bog.conversion.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,8 +26,16 @@ public class ControllerAdviceException {
             log.error("Request: " + req.getRequestURL() + " raised " + errorMessage);
 
             return new ResponseEntity<>(new GeneralExceptionResponse(errorMessage), HttpStatus.BAD_REQUEST);
+        } else if (e instanceof MethodArgumentNotValidException) {
+            BindingResult result = ((MethodArgumentNotValidException) e).getBindingResult();
+            ObjectError error = result.getAllErrors().get(0);
+            errorMessage = error.getDefaultMessage();
+            log.error("Request: " + req.getRequestURL() + " raised " + errorMessage);
+
+            return new ResponseEntity<>(new GeneralExceptionResponse(errorMessage), HttpStatus.BAD_REQUEST);
+        } else {
+            log.error("Request: " + req.getRequestURL() + " raised " + errorMessage);
+            return new ResponseEntity<>(new GeneralExceptionResponse(GENERAL_ERROR.getDescription()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        log.error("Request: " + req.getRequestURL() + " raised " + errorMessage);
-        return new ResponseEntity<>(GENERAL_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

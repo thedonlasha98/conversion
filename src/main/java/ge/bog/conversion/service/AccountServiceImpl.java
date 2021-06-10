@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,6 +20,9 @@ import static ge.bog.conversion.exception.ErrorMessage.*;
 @Slf4j
 @Service
 public class AccountServiceImpl implements AccountService {
+
+    private String user;
+    private String acctNo;
 
     public AccountServiceImpl(AccountRepository accountRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
@@ -33,7 +38,6 @@ public class AccountServiceImpl implements AccountService {
     public static final String CLOSED = "C";
     public static final Set<String> CURRENCIES = new HashSet<>(Arrays.asList("GEL", "USD", "EUR", "GBP"));
 
-    @Transactional
     @Override
     public List<String> createAccount(String user, Set<String> currencies) {
         List<String> result = new ArrayList<>();
@@ -60,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
                     result.add(acctNo);
                 } else {
                     result.add("Incorrect CCY " + ccy);
-                    log.info("Incorrect CCY user: " + user + "ccy: " + ccy);
+                    log.info("Incorrect CCY " + ccy);
                 }
             }
             accountRepository.saveAll(accounts);
@@ -71,14 +75,13 @@ public class AccountServiceImpl implements AccountService {
         return result;
     }
 
-    @Transactional
     @Override
     public List<String> closeAccount(String user, String acctNo) {
         List<String> result = new ArrayList<>();
         int minLength = 22;
         int maxLength = 25;
         if (acctNo.length() == minLength || acctNo.length() == maxLength) {
-            Set<Account> accounts = accountRepository.getAccountsByUserNameAndAcctNoIsStartingWith(user, acctNo);
+            List<Account> accounts = accountRepository.getAccountsByUserNameAndAcctNoIsStartingWith(user, acctNo);
 
             if (!accounts.isEmpty()) {
                 for (Account account : accounts) {
@@ -89,6 +92,7 @@ public class AccountServiceImpl implements AccountService {
                         result.add(String.format("%s%s", account.getAcctNo(), " - closed"));
                     } else {
                         result.add(String.format("%s%s", account.getAcctNo(), " - Balance Not Equals Zero!"));
+                        log.info(String.format("%s%s", account.getAcctNo(), " - Balance Not Equals Zero!"));
                     }
                 }
             } else {

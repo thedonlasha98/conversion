@@ -15,8 +15,11 @@ public class ApiServiceImpl implements ApiService {
     @Value("${api.rate.info.url}")
     private String infoUrl;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+
+    public ApiServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public BigDecimal getRateInfo(String ccy) {
