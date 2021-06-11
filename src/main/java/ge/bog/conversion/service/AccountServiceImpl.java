@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -42,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
     public List<String> createAccount(String user, Set<String> currencies) {
         List<String> result = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
-        int i = 1 / 0;
+
         if (userRepository.existsById(user)) {
             String index = "GE77BG";
             BigDecimal defaultBal = BigDecimal.valueOf(1000);

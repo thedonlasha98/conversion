@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/conversion")
 public class ConvController {
@@ -18,7 +20,7 @@ public class ConvController {
     private ConversionService conversionService;
 
     @PostMapping
-    ResponseEntity<ConversionDto> createOperation(@RequestBody CreateConvDto createConvDto) {
+    ResponseEntity<ConversionDto> createOperation(@Valid @RequestBody CreateConvDto createConvDto) {
         ConversionDto response = conversionService.createOperation(createConvDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

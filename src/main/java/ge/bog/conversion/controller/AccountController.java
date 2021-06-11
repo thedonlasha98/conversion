@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class AccountController {
     }
 
     @PatchMapping()
-    ResponseEntity<BigDecimal> fillingBalance(@RequestBody BalanceDto balanceDto) {
+    ResponseEntity<BigDecimal> fillingBalance(@Valid @RequestBody BalanceDto balanceDto) {
         BigDecimal balance = accountService.fillingBalance(balanceDto);
         return new ResponseEntity<>(balance, HttpStatus.OK);
     }
