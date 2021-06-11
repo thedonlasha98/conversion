@@ -15,7 +15,8 @@ public enum ErrorMessage {
     CONVERSION_NOT_FOUND("Conversion Not Found!"),
     NOT_ENOUGH_BALANCE_FOR_ACCOUNT_FROM("Not Enough Balance!"),
     NOT_ENOUGH_BALANCE_FOR_ACCOUNT_TO("Not Enough Balance For AccountTo!"),
-    USER_NOT_EQUALS_INP_USER("User Not Equals InpUser!");
+    USER_NOT_EQUALS_INP_USER("User Not Equals InpUser!"),
+    ONE_CCY_MUST_BE_GEL("One ccy must be GEL");
 
     private String description;
 

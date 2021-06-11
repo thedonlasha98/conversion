@@ -32,6 +32,8 @@ public class ConversionServiceImpl implements ConversionService {
         this.conversionRepository = conversionRepository;
     }
 
+    public static final String GEL = "GEL";
+
     @Transactional
     @Override
     public ConversionDto createOperation(CreateConvDto createConvDto) {
@@ -46,9 +48,13 @@ public class ConversionServiceImpl implements ConversionService {
         Account accountTo = accountRepository.findByUserNameAndAcctNoAndStatus(createConvDto.getUser(), createConvDto.getAcctTo(), ACTIVE)
                 .orElseThrow(() -> new GeneralException(ACCOUNT_TO_NOT_FOUND));
 
-        if (accountFrom.getCcy().equalsIgnoreCase(accountTo.getCcy())) {
+        if (!accountFrom.getCcy().equalsIgnoreCase(GEL) && !accountTo.getCcy().equalsIgnoreCase(GEL)) {
+            throw new GeneralException(ONE_CCY_MUST_BE_GEL);
+        } else if (accountFrom.getCcy().equalsIgnoreCase(accountTo.getCcy())) {
             throw new GeneralException(SAME_CURRENCY_ERROR);
-        } else if (accountFrom.getCcy().equalsIgnoreCase("GEL")) {
+        }
+
+        if (accountFrom.getCcy().equalsIgnoreCase(GEL)) {
             try {
                 rate = apiService.getRateInfo(accountTo.getCcy());
             } catch (Exception e) {
