@@ -1,12 +1,15 @@
 # conversion
 
 #For Bog TNS
+```xml
 spring.datasource.url=jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.45.50.12)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = XL04)))
 spring.datasource.username=thedonlasha
 spring.datasource.password=lasha111
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+```
 
 #for Bog Oracle Dependencies
+```xml
 <dependency>
             <groupId>ge.bog.commons</groupId>
             <artifactId>jdbc-encoding-wrapper</artifactId>
@@ -38,3 +41,4 @@ spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
             <artifactId>ucp</artifactId>
             <version>11.2.0.4</version>
         </dependency>
+```
