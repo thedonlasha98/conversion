@@ -19,7 +19,7 @@ public class ControllerAdviceException {
     @ExceptionHandler
     public ResponseEntity<?> handleException(HttpServletRequest req, Exception e) {
         String errorMessage = e.toString();
-        log.error("Request: " + req.getRequestURL() + " raised " + e.getStackTrace()[0].toString());
+        log.error("Request: " + req.getRequestURL() + " raised " + e.getStackTrace().toString());
 
         if (e instanceof GeneralException) {
             errorMessage = ((GeneralException) e).getErrorMessage();

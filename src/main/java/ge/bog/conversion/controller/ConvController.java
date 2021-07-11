@@ -30,4 +30,10 @@ public class ConvController {
         conversionService.deleteOperation(user, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    ResponseEntity<ConversionDto> getConversion(@PathVariable Long id) {
+        ConversionDto response = conversionService.getConversion(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

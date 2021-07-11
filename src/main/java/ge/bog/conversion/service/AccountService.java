@@ -1,5 +1,6 @@
 package ge.bog.conversion.service;
 
+import ge.bog.conversion.model.AccountDto;
 import ge.bog.conversion.model.BalanceDto;
 
 import java.math.BigDecimal;
@@ -13,4 +14,6 @@ public interface AccountService {
     List<String> closeAccount(String user, String acctNo);
 
     BigDecimal fillingBalance(BalanceDto balanceDto);
+
+    List<AccountDto> getAccountInfo(String acctNo);
 }

@@ -8,12 +8,14 @@ import ge.bog.conversion.model.CreateConvDto;
 import ge.bog.conversion.ropository.AccountRepository;
 import ge.bog.conversion.ropository.ConversionRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static ge.bog.conversion.exception.ErrorMessage.*;
 import static ge.bog.conversion.service.AccountServiceImpl.ACTIVE;
@@ -123,6 +125,16 @@ public class ConversionServiceImpl implements ConversionService {
             }
         } else {
             throw new GeneralException(USER_NOT_EQUALS_INP_USER);
+        }
+    }
+
+    @Override
+    public ConversionDto getConversion(Long id) {
+        Optional<Conversion> conversion = conversionRepository.findById(id);
+        if (conversion.isPresent()) {
+            return ConversionDto.toDto(conversion.get());
+        } else {
+            throw new GeneralException(CONVERSION_NOT_FOUND);
         }
     }
 }

@@ -2,6 +2,7 @@ package ge.bog.conversion.service;
 
 import ge.bog.conversion.domain.Account;
 import ge.bog.conversion.exception.GeneralException;
+import ge.bog.conversion.model.AccountDto;
 import ge.bog.conversion.model.BalanceDto;
 import ge.bog.conversion.ropository.AccountRepository;
 import ge.bog.conversion.ropository.UserRepository;
@@ -12,6 +13,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static ge.bog.conversion.exception.ErrorMessage.*;
 
@@ -120,6 +122,23 @@ public class AccountServiceImpl implements AccountService {
             }
         } else {
             throw new GeneralException(ACCOUNT_NOT_EXISTS);
+        }
+    }
+
+    @Override
+    public List<AccountDto> getAccountInfo(String acctNo) {
+        int minLength = 22;
+        int maxLength = 25;
+        if (acctNo.length() == minLength || acctNo.length() == maxLength) {
+            List<Account> accounts = accountRepository.getAccountsByAcctNoIsStartingWith(acctNo);
+
+            if (!accounts.isEmpty()) {
+                return accounts.stream().map(AccountDto::toDto).collect(Collectors.toList());
+            } else {
+                throw new GeneralException(ACCOUNT_NOT_EXISTS);
+            }
+        } else {
+            throw new GeneralException("Incorrect acctNo format");
         }
     }
 }

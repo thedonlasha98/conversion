@@ -1,5 +1,6 @@
 package ge.bog.conversion.controller;
 
+import ge.bog.conversion.model.AccountDto;
 import ge.bog.conversion.model.BalanceDto;
 import ge.bog.conversion.service.AccountService;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,15 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PatchMapping()
+    @PatchMapping
     ResponseEntity<BigDecimal> fillingBalance(@Valid @RequestBody BalanceDto balanceDto) {
         BigDecimal balance = accountService.fillingBalance(balanceDto);
         return new ResponseEntity<>(balance, HttpStatus.OK);
+    }
+
+    @GetMapping
+    ResponseEntity<List<AccountDto>> getAccountInfo(String acctNo) {
+        List<AccountDto> account = accountService.getAccountInfo(acctNo);
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 }

@@ -20,4 +20,5 @@ public interface AccountRepository extends CrudRepository<Account, String> {
 
     Optional<Account> findByAcctNoAndStatus(String acctFrom, String status);
 
+    List<Account> getAccountsByAcctNoIsStartingWith(String acctNo);
 }

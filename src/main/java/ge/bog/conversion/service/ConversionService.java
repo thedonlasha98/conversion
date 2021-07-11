@@ -7,4 +7,6 @@ public interface ConversionService {
     ConversionDto createOperation(CreateConvDto createConvDto);
 
     void deleteOperation(String user, Long id);
+
+    ConversionDto getConversion(Long id);
 }
